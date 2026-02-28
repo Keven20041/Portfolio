@@ -40,6 +40,11 @@ const projects = [
     description:
       "Full-stack web application using C#, Blazor, and .NET 9 to automate extraction and processing of engineering shop-ticket PDFs. Trained YOLO-based model to detect section and form views in technical drawings.",
     icon: Dumbbell,
+    images: [
+      { src: "/NE-upload.jpg", alt: "Northeast Precast upload interface" },
+      { src: "/NE-history.jpg", alt: "Northeast Precast processing history" },
+      { src: "/NE-viewer.jpg", alt: "Northeast Precast PDF viewer with extracted data" },
+    ],
     technologies: ["C#", "Blazor", ".NET 9", "YOLO", "SQLite", "CVAT"],
     featured: true,
   },
@@ -118,20 +123,31 @@ export function ProjectsSection() {
                       />
                     </div>
                   )}
-                  {"images" in project && project.images && (
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {(project.images as { src: string; alt: string }[]).map((img) => (
-                        <div key={img.src} className="relative w-full aspect-video rounded-xl overflow-hidden">
-                          <Image
-                            src={img.src}
-                            alt={img.alt}
-                            fill
-                            className="object-cover"
-                          />
+                  {"images" in project && project.images && (() => {
+                    const imgs = project.images as { src: string; alt: string }[]
+                    return imgs.length === 3 ? (
+                      <div className="mb-6 space-y-2">
+                        <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+                          <Image src={imgs[0].src} alt={imgs[0].alt} fill className="object-cover" />
                         </div>
-                      ))}
-                    </div>
-                  )}
+                        <div className="grid grid-cols-2 gap-2">
+                          {imgs.slice(1).map((img) => (
+                            <div key={img.src} className="relative w-full aspect-video rounded-xl overflow-hidden">
+                              <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 gap-3 mb-6">
+                        {imgs.map((img) => (
+                          <div key={img.src} className="relative w-full aspect-video rounded-xl overflow-hidden">
+                            <Image src={img.src} alt={img.alt} fill className="object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  })()}
 
                   <div className="flex items-start justify-between mb-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
