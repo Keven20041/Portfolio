@@ -21,7 +21,7 @@ export function HeroSection() {
               transition={{ delay: 0.2 }}
               className="text-primary font-mono text-sm tracking-widest mb-4"
             >
-              SOFTWARE ENGINEER & AVIONICS DEVELOPER
+              SOFTWARE & AVIONICS ENGINEER
             </motion.p>
 
             <motion.h1

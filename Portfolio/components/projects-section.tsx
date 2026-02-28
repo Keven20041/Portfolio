@@ -15,6 +15,7 @@ const projects = [
       "Designed and developed a fully functional website from scratch, handling both front-end and back-end implementation to showcase Rowan Rocketry's mission and achievements. Utilized Next.js, React.js, Tailwind CSS, and Express.js with MySQL backend.",
     icon: Globe,
     link: "https://www.rowanrocketry.com",
+    video: "/videos/RowanWebsite.mp4",
     technologies: ["Next.js", "React.js", "Tailwind CSS", "Express.js", "MySQL"],
     featured: true,
   },
@@ -26,6 +27,10 @@ const projects = [
     icon: Rocket,
     image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-51MPfAJz5xkfsTlrj1XyeKJQVUxRqJ.png",
     imageAlt: "CAD render of the custom antenna mount designed for the avionics sled bay",
+    images: [
+      { src: "/AltOS.jpg", alt: "RTL-SDR antenna and ground station setup" },
+      { src: "/Eletronic-Lab.jpg", alt: "RF signal analysis on oscilloscope in the lab" },
+    ],
     technologies: ["SolidWorks", "RF Antennas", "RTL-SDR", "TeleMega", "Telemetry", "3D Printing"],
     featured: true,
   },
@@ -90,8 +95,21 @@ export function ProjectsSection() {
                 <div className="absolute inset-0 bg-primary/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="relative">
+                  {"video" in project && project.video && (
+                    <div className="relative w-full aspect-video mb-6 rounded-xl overflow-hidden bg-secondary/50">
+                      <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                      >
+                        <source src={project.video as string} type="video/mp4" />
+                      </video>
+                    </div>
+                  )}
                   {project.image && (
-                    <div className="relative w-full h-48 mb-6 rounded-xl overflow-hidden bg-secondary/50">
+                    <div className="relative w-full h-48 mb-4 rounded-xl overflow-hidden bg-secondary/50">
                       <Image
                         src={project.image}
                         alt={project.imageAlt || project.title}
@@ -100,17 +118,26 @@ export function ProjectsSection() {
                       />
                     </div>
                   )}
+                  {"images" in project && project.images && (
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                      {(project.images as { src: string; alt: string }[]).map((img) => (
+                        <div key={img.src} className="relative w-full aspect-video rounded-xl overflow-hidden">
+                          <Image
+                            src={img.src}
+                            alt={img.alt}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   <div className="flex items-start justify-between mb-6">
                     <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
                       <Icon className="w-7 h-7 text-primary" />
                     </div>
                     <div className="flex items-center gap-3">
-                      {project.status && (
-                        <span className="px-3 py-1 bg-primary/20 text-primary text-xs rounded-full">
-                          {project.status}
-                        </span>
-                      )}
                       {project.link && (
                         <a
                           href={project.link}

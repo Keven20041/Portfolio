@@ -40,7 +40,7 @@ export function ContactSection() {
               <h3 className="text-2xl font-semibold text-foreground mb-6">Get in touch</h3>
               <div className="space-y-4">
                 <a
-                  href="mailto:guzman37@students.rowan.edu"
+                  href="mailto:kevenguzman2013@gmail.com"
                   className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -48,7 +48,7 @@ export function ContactSection() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="text-foreground">guzman37@students.rowan.edu</p>
+                    <p className="text-foreground">kevenguzman2013@gmail.com</p>
                   </div>
                 </a>
 
@@ -106,6 +106,7 @@ export function ContactSection() {
                     id="name"
                     className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     placeholder="Your name"
+                    suppressHydrationWarning
                   />
                 </div>
                 <div>
@@ -117,6 +118,7 @@ export function ContactSection() {
                     id="email"
                     className="w-full px-4 py-3 bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     placeholder="your@email.com"
+                    suppressHydrationWarning
                   />
                 </div>
                 <div>
@@ -132,6 +134,7 @@ export function ContactSection() {
                 </div>
                 <button
                   type="submit"
+                  suppressHydrationWarning
                   className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
                 >
                   Send Message

@@ -45,10 +45,11 @@ export function AboutSection() {
                 to automate technical drawing analysis. I&apos;ve also contributed to JobPiloting, integrating 
                 AI-driven features into their platform.
               </p>
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 As an Avionics Engineer with Rowan Rocketry, I design and test RF antennas for telemetry 
                 transmission, working with RTL-SDR and TeleMega flight computers to capture live flight data.
               </p>
+
             </div>
           </motion.div>
 

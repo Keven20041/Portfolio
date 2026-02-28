@@ -17,6 +17,7 @@ const experiences = [
       "Built annotated datasets using CVAT, improving detection accuracy and reliability",
     ],
     technologies: ["C#", "Blazor", ".NET 9", "YOLO", "SQLite", "CVAT", "Machine Learning"],
+    link: undefined,
   },
   {
     title: "Software Engineer",
@@ -28,6 +29,7 @@ const experiences = [
       "Contributed to front-end and back-end development efforts, leveraging modern tools and frameworks to optimize performance",
     ],
     technologies: ["React", "AI Integration", "Full Stack Development"],
+    link: undefined,
   },
 ]
 
