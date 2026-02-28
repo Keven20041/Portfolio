@@ -2,12 +2,39 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
-import { Mail, Linkedin, Github, MapPin, Send } from "lucide-react"
+import { useRef, useState } from "react"
+import { Mail, Linkedin, Github, MapPin, Send, Loader2, CheckCircle, AlertCircle } from "lucide-react"
 
 export function ContactSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus("loading")
+    const form = e.currentTarget
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    }
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      if (res.ok) {
+        setStatus("success")
+        form.reset()
+      } else {
+        setStatus("error")
+      }
+    } catch {
+      setStatus("error")
+    }
+  }
 
   return (
     <section id="contact" className="py-32 px-6" ref={ref}>
@@ -96,7 +123,7 @@ export function ContactSection() {
 
             <div>
               <h3 className="text-2xl font-semibold text-foreground mb-6">Send a message</h3>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="name" className="block text-sm text-muted-foreground mb-2">
                     Name
@@ -134,12 +161,28 @@ export function ContactSection() {
                 </div>
                 <button
                   type="submit"
+                  disabled={status === "loading"}
                   suppressHydrationWarning
-                  className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Send Message
-                  <Send className="w-4 h-4" />
+                  {status === "loading" ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Sending...</>
+                  ) : (
+                    <>Send Message <Send className="w-4 h-4" /></>
+                  )}
                 </button>
+                {status === "success" && (
+                  <div className="flex items-center gap-2 text-green-500 text-sm">
+                    <CheckCircle className="w-4 h-4" />
+                    Message sent! I&apos;ll get back to you soon.
+                  </div>
+                )}
+                {status === "error" && (
+                  <div className="flex items-center gap-2 text-red-500 text-sm">
+                    <AlertCircle className="w-4 h-4" />
+                    Something went wrong. Please try again or email directly.
+                  </div>
+                )}
               </form>
             </div>
           </div>
