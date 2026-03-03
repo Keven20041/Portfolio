@@ -1,12 +1,23 @@
 "use client"
 
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useEffect } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import * as THREE from "three"
 
 function Particles({ count = 500 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null)
   const light = useRef<THREE.PointLight>(null)
+  const mouseRef = useRef({ x: 0, y: 0 })
+  const smoothMouse = useRef({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2
+      mouseRef.current.y = -(e.clientY / window.innerHeight - 0.5) * 2
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
 
   const particles = useMemo(() => {
     const temp = []
@@ -31,13 +42,17 @@ function Particles({ count = 500 }: { count?: number }) {
   }, [count])
 
   useFrame((state) => {
+    // Smoothly interpolate mouse position
+    smoothMouse.current.x += (mouseRef.current.x - smoothMouse.current.x) * 0.04
+    smoothMouse.current.y += (mouseRef.current.y - smoothMouse.current.y) * 0.04
+
     if (mesh.current) {
-      mesh.current.rotation.x = state.clock.elapsedTime * 0.02
-      mesh.current.rotation.y = state.clock.elapsedTime * 0.03
+      mesh.current.rotation.x = state.clock.elapsedTime * 0.02 + smoothMouse.current.y * 0.2
+      mesh.current.rotation.y = state.clock.elapsedTime * 0.03 + smoothMouse.current.x * 0.2
     }
     if (light.current) {
-      light.current.position.x = Math.sin(state.clock.elapsedTime * 0.5) * 10
-      light.current.position.y = Math.cos(state.clock.elapsedTime * 0.5) * 10
+      light.current.position.x = Math.sin(state.clock.elapsedTime * 0.5) * 10 + smoothMouse.current.x * 4
+      light.current.position.y = Math.cos(state.clock.elapsedTime * 0.5) * 10 + smoothMouse.current.y * 4
     }
   })
 

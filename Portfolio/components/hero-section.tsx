@@ -1,10 +1,21 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react"
 import { ArrowDown, Rocket, Code2, Cpu } from "lucide-react"
 import Image from "next/image"
 
+const roles = ["SOFTWARE & AVIONICS ENGINEER", "FULL STACK DEVELOPER", "CS @ ROWAN UNIVERSITY"]
+
 export function HeroSection() {
+  const [roleIndex, setRoleIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIndex((i) => (i + 1) % roles.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [])
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6">
       <div className="container mx-auto">
@@ -15,14 +26,25 @@ export function HeroSection() {
             transition={{ duration: 0.8 }}
             className="text-left"
           >
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-primary font-mono text-sm tracking-widest mb-4"
+              className="h-6 mb-4 overflow-hidden"
             >
-              SOFTWARE & AVIONICS ENGINEER
-            </motion.p>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={roleIndex}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.35 }}
+                  className="text-primary font-mono text-sm tracking-widest"
+                >
+                  {roles[roleIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -78,12 +100,14 @@ export function HeroSection() {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-6 rounded-full border border-border/50"
+                className="absolute -inset-6 rounded-full border border-primary/30"
+                style={{ boxShadow: '0 0 12px oklch(0.62 0.18 260 / 0.15)' }}
               />
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute -inset-12 rounded-full border border-primary/30"
+                className="absolute -inset-12 rounded-full border border-primary/40"
+                style={{ boxShadow: '0 0 18px oklch(0.62 0.18 260 / 0.2)' }}
               />
               <motion.div
                 animate={{ rotate: 360 }}
@@ -93,7 +117,8 @@ export function HeroSection() {
 
               {/* Floating icons */}
               <motion.div
-                className="absolute -top-16 left-1/2 -translate-x-1/2 bg-card p-3 rounded-xl border border-border z-10"
+                className="absolute -top-16 left-1/2 -translate-x-1/2 glass-card p-3 rounded-xl z-10"
+                style={{ boxShadow: '0 0 12px oklch(0.62 0.18 260 / 0.25)' }}
                 animate={{ y: [-5, 5, -5] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
@@ -101,7 +126,8 @@ export function HeroSection() {
               </motion.div>
 
               <motion.div
-                className="absolute -bottom-16 left-1/2 -translate-x-1/2 bg-card p-3 rounded-xl border border-border z-10"
+                className="absolute -bottom-16 left-1/2 -translate-x-1/2 glass-card p-3 rounded-xl z-10"
+                style={{ boxShadow: '0 0 12px oklch(0.62 0.18 260 / 0.25)' }}
                 animate={{ y: [5, -5, 5] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
               >
@@ -109,7 +135,8 @@ export function HeroSection() {
               </motion.div>
 
               <motion.div
-                className="absolute top-1/2 -right-20 -translate-y-1/2 bg-card p-3 rounded-xl border border-border z-10"
+                className="absolute top-1/2 -right-20 -translate-y-1/2 glass-card p-3 rounded-xl z-10"
+                style={{ boxShadow: '0 0 12px oklch(0.62 0.18 260 / 0.25)' }}
                 animate={{ x: [-5, 5, -5] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
               >
@@ -117,7 +144,9 @@ export function HeroSection() {
               </motion.div>
 
               {/* Profile image */}
-              <div className="relative w-64 h-64 rounded-full overflow-hidden border-4 border-primary/30">
+              <div className="relative w-64 h-64 rounded-full overflow-hidden border-2 border-primary/50"
+                style={{ boxShadow: '0 0 30px oklch(0.62 0.18 260 / 0.35), 0 0 60px oklch(0.62 0.18 260 / 0.15)' }}
+              >
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/KevenHeadshot-SyzGYOtC8SneFaiIpL108JLeajXO5V.jpg"
                   alt="Keven Guzman"
@@ -129,7 +158,7 @@ export function HeroSection() {
               </div>
 
               {/* Glow effect behind photo */}
-              <div className="absolute inset-0 -z-10 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
+              <div className="absolute inset-0 -z-10 bg-primary/25 rounded-full blur-2xl animate-pulse-glow scale-110" />
             </div>
           </motion.div>
         </div>

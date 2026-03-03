@@ -63,6 +63,19 @@ export function ProjectsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [tiltState, setTiltState] = useState<{ [key: number]: { x: number; y: number } }>({})
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    setTiltState((prev) => ({ ...prev, [index]: { x: y * -7, y: x * 7 } }))
+  }
+
+  const handleMouseLeaveCard = (index: number) => {
+    setTiltState((prev) => ({ ...prev, [index]: { x: 0, y: 0 } }))
+    setHoveredIndex(null)
+  }
 
   return (
     <section id="projects" className="py-32 px-6" ref={ref}>
@@ -90,10 +103,17 @@ export function ProjectsSection() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                onMouseLeave={() => handleMouseLeaveCard(index)}
+                onMouseMove={(e) => handleMouseMove(e, index)}
+                style={{
+                  transform: `perspective(1200px) rotateX(${tiltState[index]?.x ?? 0}deg) rotateY(${tiltState[index]?.y ?? 0}deg) translateZ(0)`,
+                  transition: hoveredIndex === index ? 'transform 0.12s ease-out, box-shadow 0.3s ease, border-color 0.3s ease' : 'transform 0.4s ease-out, box-shadow 0.3s ease, border-color 0.3s ease',
+                  willChange: 'transform',
+                  boxShadow: hoveredIndex === index ? '0 0 25px oklch(0.62 0.18 260 / 0.3), 0 0 50px oklch(0.62 0.18 260 / 0.1)' : '0 0 0px transparent',
+                }}
                 className={cn(
-                  "group relative bg-card border border-border rounded-2xl p-8 transition-all duration-300",
-                  hoveredIndex === index && "border-primary/50 scale-[1.02]",
+                  "group relative glass-card rounded-2xl p-8 border",
+                  hoveredIndex === index ? "border-primary/50" : "border-white/[0.07]",
                   project.featured && "md:col-span-1"
                 )}
               >
@@ -177,7 +197,7 @@ export function ProjectsSection() {
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-secondary text-muted-foreground text-sm rounded-full"
+                        className="px-3 py-1 bg-primary/10 text-primary/80 text-sm rounded-full border border-primary/20 hover:border-primary/50 hover:text-primary hover:bg-primary/15 transition-all duration-200"
                       >
                         {tech}
                       </span>

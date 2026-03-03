@@ -32,7 +32,7 @@ export function AboutSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-2"
           >
-            <div className="bg-card border border-border rounded-2xl p-8">
+            <div className="glass-card glow-border-hover rounded-2xl p-8">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 I&apos;m a Computer Science student at Rowan University with a Minor in Mathematics and 
                 a concentration in Cyber Security Defense. My journey spans from web development with modern 
@@ -59,7 +59,7 @@ export function AboutSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4"
           >
-            <div className="bg-card border border-border rounded-2xl p-6">
+            <div className="glass-card glow-border-hover rounded-2xl p-6">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                   <GraduationCap className="w-6 h-6 text-primary" />
@@ -78,7 +78,7 @@ export function AboutSection() {
               </p>
             </div>
 
-            <div className="bg-card border border-border rounded-2xl p-6">
+            <div className="glass-card glow-border-hover rounded-2xl p-6">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-primary" />
@@ -93,7 +93,7 @@ export function AboutSection() {
               </p>
             </div>
 
-            <div className="bg-card border border-border rounded-2xl p-6">
+            <div className="glass-card glow-border-hover rounded-2xl p-6">
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Languages className="w-6 h-6 text-primary" />
