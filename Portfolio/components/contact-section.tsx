@@ -38,7 +38,15 @@ export function ContactSection() {
           setErrorMessage(payload.error)
         }
         if (payload?.code && typeof payload.code === "string") {
-          setErrorMeta(`Status ${res.status} • ${payload.code}`)
+          const missing = Array.isArray(payload?.missing)
+            ? payload.missing.filter((item: unknown) => typeof item === "string").join(", ")
+            : ""
+
+          setErrorMeta(
+            missing
+              ? `Status ${res.status} • ${payload.code} • Missing: ${missing}`
+              : `Status ${res.status} • ${payload.code}`
+          )
         } else {
           setErrorMeta(`Status ${res.status}`)
         }

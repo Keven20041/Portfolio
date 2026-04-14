@@ -21,8 +21,17 @@ export async function POST(req: NextRequest) {
     const gmailAppPassword = process.env.GMAIL_APP_PASSWORD?.replace(/\s+/g, "")
 
     if (!gmailUser || !gmailAppPassword) {
+      const missing = [
+        !gmailUser ? "GMAIL_USER" : null,
+        !gmailAppPassword ? "GMAIL_APP_PASSWORD" : null,
+      ].filter(Boolean)
+
       return NextResponse.json(
-        { error: "Email service is not configured on this environment.", code: "EMAIL_NOT_CONFIGURED" },
+        {
+          error: "Email service is not configured on this environment.",
+          code: "EMAIL_NOT_CONFIGURED",
+          missing,
+        },
         { status: 500 }
       )
     }
