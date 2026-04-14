@@ -3,6 +3,15 @@ import nodemailer from "nodemailer"
 
 export const runtime = "nodejs"
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;")
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -44,20 +53,68 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br />")
+    const submittedAt = new Date().toLocaleString("en-US", {
+      dateStyle: "full",
+      timeStyle: "short",
+    })
+
     await transporter.sendMail({
       from: `"Portfolio Contact" <${gmailUser}>`,
       to: gmailUser,
       replyTo: email,
       subject: `New message from ${name}`,
       html: `
-      <div style="font-family: sans-serif; max-width: 600px;">
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p style="white-space: pre-wrap;">${message}</p>
+      <div style="margin:0;padding:24px;background:#0b0f1f;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:680px;margin:0 auto;background:#12182d;border:1px solid #2c3357;border-radius:14px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#eaf1ff;">
+          <tr>
+            <td style="padding:24px 28px;background:linear-gradient(135deg,#1a2142 0%,#151b34 60%,#101427 100%);border-bottom:1px solid #313a66;">
+              <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#8db6ff;">Portfolio Contact Feed</p>
+              <h1 style="margin:0;font-size:24px;line-height:1.2;color:#ffffff;">Incoming Message Received</h1>
+              <p style="margin:10px 0 0 0;font-size:13px;color:#a6b8e8;">${submittedAt}</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:24px 28px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#0e1428;border:1px solid #283054;border-radius:12px;">
+                <tr>
+                  <td style="padding:16px 18px;border-bottom:1px solid #253057;">
+                    <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#84a6f5;">Name</p>
+                    <p style="margin:0;font-size:16px;color:#f5f8ff;">${safeName}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 18px;border-bottom:1px solid #253057;">
+                    <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#84a6f5;">Email</p>
+                    <p style="margin:0;font-size:16px;color:#f5f8ff;">
+                      <a href="mailto:${safeEmail}" style="color:#77b2ff;text-decoration:none;">${safeEmail}</a>
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:16px 18px;">
+                    <p style="margin:0 0 10px 0;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#84a6f5;">Message</p>
+                    <p style="margin:0;font-size:15px;line-height:1.6;color:#e6eeff;">${safeMessage}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:0 28px 24px 28px;">
+              <a href="mailto:${safeEmail}?subject=Re:%20Portfolio%20Inquiry" style="display:inline-block;padding:12px 18px;background:linear-gradient(135deg,#4e7eff 0%,#66a0ff 100%);border-radius:10px;color:#03122f;font-weight:700;font-size:14px;text-decoration:none;">
+                Reply to ${safeName}
+              </a>
+            </td>
+          </tr>
+        </table>
       </div>
     `,
+      text: `New Contact Form Submission\n\nName: ${name}\nEmail: ${email}\nSubmitted: ${submittedAt}\n\nMessage:\n${message}`,
     })
 
     return NextResponse.json({ success: true })
