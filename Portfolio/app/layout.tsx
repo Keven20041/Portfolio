@@ -9,7 +9,6 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Keven Guzman | Software Engineer & Avionics Developer',
   description: 'Senior Computer Science student at Rowan University. Software Engineer specializing in React, Next.js, TypeScript, and avionics systems for rocketry.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
