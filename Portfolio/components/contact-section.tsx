@@ -9,10 +9,14 @@ export function ContactSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("Something went wrong. Please try again or email directly.")
+  const [errorMeta, setErrorMeta] = useState("")
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus("loading")
+    setErrorMessage("Something went wrong. Please try again or email directly.")
+    setErrorMeta("")
     const form = e.currentTarget
     const data = {
       name: (form.elements.namedItem("name") as HTMLInputElement).value,
@@ -29,9 +33,19 @@ export function ContactSection() {
         setStatus("success")
         form.reset()
       } else {
+        const payload = await res.json().catch(() => null)
+        if (payload?.error && typeof payload.error === "string") {
+          setErrorMessage(payload.error)
+        }
+        if (payload?.code && typeof payload.code === "string") {
+          setErrorMeta(`Status ${res.status} • ${payload.code}`)
+        } else {
+          setErrorMeta(`Status ${res.status}`)
+        }
         setStatus("error")
       }
     } catch {
+      setErrorMeta("Network error")
       setStatus("error")
     }
   }
@@ -178,9 +192,12 @@ export function ContactSection() {
                   </div>
                 )}
                 {status === "error" && (
-                  <div className="flex items-center gap-2 text-red-500 text-sm">
-                    <AlertCircle className="w-4 h-4" />
-                    Something went wrong. Please try again or email directly.
+                  <div className="space-y-1 text-red-500 text-sm">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      {errorMessage}
+                    </div>
+                    {errorMeta && <p className="text-xs text-red-400">{errorMeta}</p>}
                   </div>
                 )}
               </form>
