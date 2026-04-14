@@ -32,7 +32,7 @@ export function Navigation() {
       transition={{ duration: 0.6 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled ? "bg-background/60 backdrop-blur-xl border-b border-white/[0.07]" : "bg-transparent"
+        scrolled || mobileMenuOpen ? "bg-background/60 backdrop-blur-xl border-b border-white/[0.07]" : "bg-transparent"
       )}
     >
       <nav className="container mx-auto px-6 py-4">
@@ -101,7 +101,6 @@ export function Navigation() {
                 <a
                   key={item.name}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
                   className="text-muted-foreground hover:text-primary transition-colors text-sm tracking-wide uppercase"
                 >
                   {item.name}
