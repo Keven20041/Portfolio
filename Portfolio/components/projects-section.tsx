@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useState } from "react"
-import { ExternalLink, Github, Rocket, Dumbbell, Globe, Radio } from "lucide-react"
+import { ExternalLink, Github, Rocket, Dumbbell, Globe, Radio, Brain } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
@@ -46,6 +46,16 @@ const projects = [
       { src: "/NE-viewer.jpg", alt: "Northeast Precast PDF viewer with extracted data" },
     ],
     technologies: ["C#", "Blazor", ".NET 9", "YOLO", "SQLite", "CVAT"],
+    featured: true,
+  },
+  {
+    title: "Philadelphia Pointing Span Test (PPST)",
+    subtitle: "Neurocognitive Assessment Application",
+    description:
+      "The Philadelphia Pointing Span Test (PPST) is a digital, tablet-based neurocognitive assessment used to evaluate working memory and executive function. It measures an individual's ability to recall sequences of spatial locations, providing insight into serial order processing, attention control, and response latency. PPST serves as a screening tool for identifying potential neurocognitive impairments, with performance linked to broader executive functioning. Emerging research also suggests correlations between PPST outcomes and cardiovascular health, highlighting its value in both clinical and research settings.",
+    icon: Brain,
+    video: "/videos/PPSTAPP-compressed.mp4",
+    technologies: ["Neurocognitive Testing", "Working Memory", "Executive Function", "Tablet App"],
     featured: true,
   },
   {
