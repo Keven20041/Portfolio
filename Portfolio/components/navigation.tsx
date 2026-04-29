@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Github, Linkedin, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const navItems = [
   { name: "About", href: "#about" },
@@ -32,7 +33,7 @@ export function Navigation() {
       transition={{ duration: 0.6 }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled || mobileMenuOpen ? "bg-background/60 backdrop-blur-xl border-b border-white/[0.07]" : "bg-transparent"
+        scrolled || mobileMenuOpen ? "bg-background/80 backdrop-blur-xl border-b border-border/60" : "bg-transparent"
       )}
     >
       <nav className="container mx-auto px-6 py-4">
@@ -61,6 +62,7 @@ export function Navigation() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
             <motion.a
               href="https://github.com/Keven20041"
               target="_blank"
@@ -107,6 +109,7 @@ export function Navigation() {
                 </a>
               ))}
               <div className="flex items-center gap-4 pt-4 border-t border-border">
+                <ThemeToggle />
                 <a
                   href="https://github.com/Keven20041"
                   target="_blank"

@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
-import { ArrowDown, Rocket, Code2, Cpu } from "lucide-react"
+import { ArrowDown, Rocket, Code2, Cpu, Settings } from "lucide-react"
 import Image from "next/image"
 
 const roles = ["SOFTWARE & AVIONICS ENGINEER", "FULL STACK DEVELOPER", "CS @ ROWAN UNIVERSITY"]
@@ -141,6 +141,15 @@ export function HeroSection() {
                 transition={{ duration: 3, repeat: Infinity, delay: 1 }}
               >
                 <Rocket className="w-6 h-6 text-primary" />
+              </motion.div>
+
+              <motion.div
+                className="absolute top-1/2 -left-20 -translate-y-1/2 glass-card p-3 rounded-xl z-10"
+                style={{ boxShadow: '0 0 12px oklch(0.62 0.18 260 / 0.25)' }}
+                animate={{ x: [5, -5, 5] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1.25 }}
+              >
+                <Settings className="w-6 h-6 text-primary" />
               </motion.div>
 
               {/* Profile image */}

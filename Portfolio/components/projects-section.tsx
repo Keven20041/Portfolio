@@ -123,7 +123,7 @@ export function ProjectsSection() {
                 }}
                 className={cn(
                   "group relative glass-card rounded-2xl p-8 border",
-                  hoveredIndex === index ? "border-primary/50" : "border-white/[0.07]",
+                  hoveredIndex === index ? "border-primary/50" : "border-border/60",
                   project.featured && "md:col-span-1"
                 )}
               >

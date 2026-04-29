@@ -60,7 +60,7 @@ export function ExperienceSection() {
               initial={{ opacity: 0, x: -50 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass-card glow-border-hover rounded-2xl p-8 border border-white/[0.07] hover:border-primary/50"
+              className="glass-card glow-border-hover rounded-2xl p-8 border border-border/60 hover:border-primary/50"
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
                 <div className="flex items-start gap-4">

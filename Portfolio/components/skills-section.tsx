@@ -57,7 +57,7 @@ export function SkillsSection() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="glass-card glow-border-hover rounded-2xl p-8 border border-white/[0.07] hover:border-primary/50"
+                className="glass-card glow-border-hover rounded-2xl p-8 border border-border/60 hover:border-primary/50"
               >
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -88,7 +88,7 @@ export function SkillsSection() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 glass-card glow-border-hover rounded-2xl p-8 border border-white/[0.07]"
+          className="mt-12 glass-card glow-border-hover rounded-2xl p-8 border border-border/60"
         >
           <h3 className="text-xl font-semibold text-foreground mb-6">Certifications & Activities</h3>
           <div className="flex flex-wrap gap-3">

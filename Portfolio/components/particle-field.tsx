@@ -2,9 +2,10 @@
 
 import { useRef, useMemo, useEffect } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
+import { useTheme } from "next-themes"
 import * as THREE from "three"
 
-function Particles({ count = 500 }: { count?: number }) {
+function Particles({ count = 500, startColor = '#4a7cf5', endColor = '#6b8cff', lightColor = '#4a7cf5' }: { count?: number, startColor?: string, endColor?: string, lightColor?: string }) {
   const mesh = useRef<THREE.Points>(null)
   const light = useRef<THREE.PointLight>(null)
   const mouseRef = useRef({ x: 0, y: 0 })
@@ -32,8 +33,8 @@ function Particles({ count = 500 }: { count?: number }) {
 
   const colors = useMemo(() => {
     const temp = []
-    const color1 = new THREE.Color("#4a7cf5")
-    const color2 = new THREE.Color("#6b8cff")
+    const color1 = new THREE.Color(startColor)
+    const color2 = new THREE.Color(endColor)
     for (let i = 0; i < count; i++) {
       const mixedColor = color1.clone().lerp(color2, Math.random())
       temp.push(mixedColor.r, mixedColor.g, mixedColor.b)
@@ -58,7 +59,7 @@ function Particles({ count = 500 }: { count?: number }) {
 
   return (
     <>
-      <pointLight ref={light} intensity={2} color="#4a7cf5" />
+      <pointLight ref={light} intensity={2} color={lightColor} />
       <points ref={mesh}>
         <bufferGeometry>
           <bufferAttribute
@@ -79,6 +80,7 @@ function Particles({ count = 500 }: { count?: number }) {
         <pointsMaterial
           size={0.1}
           vertexColors
+          color={startColor}
           transparent
           opacity={0.6}
           sizeAttenuation
@@ -89,12 +91,18 @@ function Particles({ count = 500 }: { count?: number }) {
 }
 
 export function ParticleField() {
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
+  const particleStart = isDark ? "#ffffff" : "#4a7cf5"
+  const particleEnd = isDark ? "#d1d5db" : "#6b8cff"
+  const lightColor = isDark ? "#ffffff" : "#4a7cf5"
+
   return (
     <div className="fixed inset-0 -z-10">
       <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-        <color attach="background" args={["#0f172a"]} />
-        <ambientLight intensity={0.3} />
-        <Particles count={800} />
+        <color attach="background" args={[isDark ? "#000000" : "#eaf4ff"]} />
+        <ambientLight intensity={isDark ? 0.3 : 0.55} />
+        <Particles count={800} startColor={particleStart} endColor={particleEnd} lightColor={lightColor} />
       </Canvas>
     </div>
   )
