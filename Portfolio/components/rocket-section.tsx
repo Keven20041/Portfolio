@@ -2,12 +2,30 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import Image from "next/image"
 
 export function RocketSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+
+    // Ensure muted before attempting to play — required by many browsers for autoplay
+    vid.muted = true
+
+    if (isInView) {
+      const p = vid.play()
+      if (p !== undefined) {
+        p.catch(() => {
+          // play() may be blocked by browser policies; ignore errors silently
+        })
+      }
+    }
+  }, [isInView])
 
   return (
     <section id="rocket" className="py-32 px-6" ref={ref}>
@@ -40,12 +58,13 @@ export function RocketSection() {
           {/* Aspect ratio container — change aspect-video (16:9) to aspect-[21/9] for ultra-wide crop */}
           <div className="relative w-full aspect-video">
           <video
+            ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover"
             autoPlay
             muted
             loop
             playsInline
-            controls
+            preload="auto"
           >
             <source src="/videos/rocket-launch.mp4" type="video/mp4" />
             Your browser does not support the video tag.

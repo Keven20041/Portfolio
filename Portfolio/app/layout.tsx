@@ -40,7 +40,7 @@ export default function RootLayout({
         className="font-sans antialiased bg-background text-foreground transition-colors duration-300"
         suppressHydrationWarning
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
         <Analytics />

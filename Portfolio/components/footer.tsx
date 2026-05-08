@@ -16,7 +16,7 @@ export function Footer() {
             viewport={{ once: true }}
             className="text-muted-foreground text-sm"
           >
-            {currentYear} Keven Guzman. Built with Next.js & Three.js
+            {currentYear} Keven Guzman | All rights reserved.
           </motion.p>
 
           <motion.div
