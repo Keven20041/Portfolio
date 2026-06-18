@@ -3,28 +3,41 @@
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef, useEffect } from "react"
-import Image from "next/image"
 
 export function RocketSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
-  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+
+  const videos = [
+    {
+      label: "2025",
+      src: "/videos/rocket-launch.mp4",
+      title: "ProfPulsion",
+    },
+    {
+      label: "2026",
+      src: "/videos/NightOwl2026.mp4",
+      title: "Night Owl",
+    },
+  ]
 
   useEffect(() => {
-    const vid = videoRef.current
-    if (!vid) return
+    if (!isInView) return
 
-    // Ensure muted before attempting to play — required by many browsers for autoplay
-    vid.muted = true
+    videoRefs.current.forEach((vid) => {
+      if (!vid) return
 
-    if (isInView) {
+      // Ensure muted before attempting to play — required by many browsers for autoplay
+      vid.muted = true
+
       const p = vid.play()
       if (p !== undefined) {
         p.catch(() => {
           // play() may be blocked by browser policies; ignore errors silently
         })
       }
-    }
+    })
   }, [isInView])
 
   return (
@@ -52,24 +65,32 @@ export function RocketSection() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="overflow-hidden rounded-2xl border border-border bg-card"
+          className="grid gap-6 md:grid-cols-2"
         >
-          {/* Place your video at public/videos/rocket-launch.mp4 */}
-          {/* Aspect ratio container — change aspect-video (16:9) to aspect-[21/9] for ultra-wide crop */}
-          <div className="relative w-full aspect-video">
-          <video
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-          >
-            <source src="/videos/rocket-launch.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          </div>
+          {videos.map((video, index) => (
+            <div key={video.src} className="overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="border-b border-border px-4 py-3">
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">{video.label}</p>
+                <p className="text-sm text-muted-foreground">{video.title}</p>
+              </div>
+              <div className="relative w-full aspect-video">
+                <video
+                  ref={(element) => {
+                    videoRefs.current[index] = element
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                >
+                  <source src={video.src} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
