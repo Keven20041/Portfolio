@@ -11,21 +11,8 @@ export const metadata: Metadata = {
   title: 'Keven Guzman | Software Engineer & Avionics Developer',
   description: 'Senior Computer Science student at Rowan University. Software Engineer specializing in React, Next.js, TypeScript, and avionics systems for rocketry.',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/favicon.png',
+    apple: '/favicon.png',
   },
 }
 
